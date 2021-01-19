@@ -3,6 +3,9 @@ const userController = require('../controllers/user.controller');
 var router = express.Router();
 
 
+//Render signUp form
+router.get('/users/signup', userController.renderSignUpForm);
+
 /* GET users listing. */
 router.get('/users', userController.getUsers);
 
