@@ -1,5 +1,6 @@
 var express = require('express');
 const userController = require('../controllers/user.controller');
+const { signupValidation } = require('../validations/signup.validation');
 var router = express.Router();
 
 
@@ -14,13 +15,13 @@ router.get('/users/find/:id', userController.getOneUser);
 
 
 //Insert one user
-router.post('/users/add', userController.addUser);
+router.post('/users/add', signupValidation, userController.addUser);
 
 //Delete a user
 router.delete('/users/delete/:id', userController.deleteUser);
 
 //update user
-router.put('/users/update/:id', userController.UpdateUser);
+router.put('/users/update/:id', userController.UpdateUser); 
 
 
 module.exports = router;

@@ -1,8 +1,6 @@
 const userController = {};
 const db = require("../database/models");
-const { Op } = require("sequelize");
-
-
+const bcrypt = require("bcryptjs");
 
 userController.renderSignUpForm = (req, res) => {
   res.render("users/signup");
@@ -28,50 +26,48 @@ userController.getOneUser = async (req, res) => {
   }
 };
 
+//Find One user by Email to validate if is in use
+
+userController.findUserByEmail = async (checkEmail) => {
+  console.log("body: " + checkEmail);
+
+  result = db.User.findOne({ where: { email: checkEmail } });
+
+  return result;
+};
+
 //Inser a New User
 userController.addUser = async (req, res) => {
-  const errors = [];
-  const { name, email, password, confirmPassword } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
-  //Validate if passwor match
-  if (password != confirmPassword) {
-    errors.push({ text: "PAssword do not match" });
-  }
-  //Validate pasword minimum length
-  if (password.length < 6) {
-    errors.push({ text: "Password must be a least 6 characters." });
-  }
-  //Validate if there are error untill this point
-  if (errors.length > 0) {
-    res.render("users/signUp", {
-      errors,
-      name,
-      email,
-      password,
-      confirmPassword,
-    });
-  } else {
-    //Check if email exist
-    emaiCheck = await db.User.findAll({
-      where: {
-       email:{ 
-           [Op.substring]: email
+  // encrypt password before insert
+
+  const saltRounds = 10;
+
+  bcrypt.genSalt(saltRounds, async function (err, salt) {
+    if (err) {
+      console.log(err);
+    } else {
+      await bcrypt.hash(password, salt, async function (err, hash) {
+        // Store hash in your password DB.
+        if (err) {
+          console.log(err);
+        } else {
+          //Inser usen into database
+
+          await db.User.create({
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: hash,
+            active: true,
+          }).then((submitetUser) => res.send(submitetUser));
         }
-      },
-    });
-    console.log("emailChech"+emaiCheck);
-    
-      //Inser usen into database
+      });
+    }
+  });
 
-      db.User.create({
-        firstName: name,
-        lastName: name,
-        email: email,
-        password: password,
-        active: true,
-      }).then((submitetUser) => res.send(submitetUser));
-    
-  }
+  //}
 };
 
 //Update a User

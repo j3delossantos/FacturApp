@@ -11,6 +11,17 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
+   return queryInterface.bulkInsert('Users', [{
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'example@example.com',
+    password: '1111111',
+    active: true,
+    createdAt: new Date(),
+    updatedAt: new Date()  
+      
+     
+  }]);
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -20,5 +31,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    return queryInterface.bulkDelete('Users', null, {});
   }
 };
