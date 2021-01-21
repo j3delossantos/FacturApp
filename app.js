@@ -6,6 +6,7 @@ const db = require("./database/models");
 const expHbs = require("express-handlebars");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const flash = require('connect-flash');
 const session = require('express-session');
 const lessMiddleware = require("less-middleware");
 const logger = require("morgan");
@@ -41,10 +42,19 @@ app.use(cors());
 app.use(lessMiddleware(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(flash());
 
+//GlovalVariables
+app.use((req, res, next) => {
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error = req.flash("error");
+  res.locals.user = req.user || null;
+  next();
+});
 
 app.use(require("./routes/index.routes"));
 app.use(require("./routes/users.routes"));
+
 
 
 //Sequelize start

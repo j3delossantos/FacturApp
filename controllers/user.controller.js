@@ -61,7 +61,9 @@ userController.addUser = async (req, res) => {
             email: email,
             password: hash,
             active: true,
-          }).then((submitetUser) => res.send(submitetUser));
+          })//.then((submitetUser) => res.send(submitetUser));
+          req.flash("success_msg", "You ar now registered, please proceed to login");
+          res.redirect('/users/login');
         }
       });
     }
@@ -105,5 +107,13 @@ userController.deleteUser = async (req, res) => {
     res.send("User Deleted");
   }
 };
+
+
+//user login
+
+userController.renderLoginForm = async (req, res) =>{
+  res.render('users/login');
+
+}
 
 module.exports = userController;

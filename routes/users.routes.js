@@ -13,7 +13,6 @@ router.get('/users', userController.getUsers);
 //Get one use by ID
 router.get('/users/find/:id', userController.getOneUser);
 
-
 //Insert one user
 router.post('/users/add', signupValidation, userController.addUser);
 
@@ -22,6 +21,9 @@ router.delete('/users/delete/:id', userController.deleteUser);
 
 //update user
 router.put('/users/update/:id', userController.UpdateUser); 
+
+//user Login
+router.get('/users/login', userController.renderLoginForm);
 
 
 module.exports = router;
