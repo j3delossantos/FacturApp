@@ -1,7 +1,7 @@
-var express = require('express');
+const express = require('express');
 const userController = require('../controllers/user.controller');
 const { signupValidation } = require('../validations/signup.validation');
-var router = express.Router();
+const router = express.Router();
 
 
 //Render signUp form
