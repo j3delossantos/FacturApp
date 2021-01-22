@@ -4,18 +4,25 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavigationsComponent } from './navigations/navigations.component';
+import { StartComponent } from './start/start.component';
+import { UserRoutingModule } from './user/user-routing.module';
+import { UserModule } from './user/user.module';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavigationsComponent
+    NavigationsComponent,
+    StartComponent,
+   
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    UserRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent],
-  exports: [NavigationsComponent]
+  exports: [NavigationsComponent, StartComponent]
 })
 export class AppModule { }
