@@ -8,7 +8,9 @@ userController.renderSignUpForm = (req, res) => {
 
 //Get all users
 userController.getUsers = async (req, res) => {
-  result = await db.User.findAll();
+  result = await db.User.findAll({
+    attributes:{exclude:['password']}
+  });
   if (result) {
     res.send(result);
   } else {
